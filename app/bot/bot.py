@@ -3,9 +3,7 @@ from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from app.bot.handlers.redes import redes  # Importa o handler de redes
-from app.bot.handlers.proximas_partidas import proximos_jogos  
-from app.bot.handlers.ultimos_jogos import ultimos_jogos  
-from app.bot.handlers.streamers import listar_streamers_ao_vivo
+from app.bot.handlers.streamers import streamers  # Importa o handler de redes
 load_dotenv()
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 
@@ -20,9 +18,8 @@ async def start_bot():
     # Adiciona os handlers para os comandos
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("redes", redes))  
-    app.add_handler(CommandHandler("proximosjogos", proximos_jogos))  
-    app.add_handler(CommandHandler("ultimosjogos", ultimos_jogos))  
-    app.add_handler(CommandHandler("streamers", listar_streamers_ao_vivo))  
+    app.add_handler(CommandHandler("streamers", streamers))  
+
 
     await app.initialize()
     await app.start()
