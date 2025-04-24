@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import asyncio
-from app.bot import start_bot
+from app.bot.bot import start_bot  
 
 app = FastAPI()
 

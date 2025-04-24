@@ -2,7 +2,10 @@ import os
 from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-
+from app.bot.handlers.redes import redes  # Importa o handler de redes
+from app.bot.handlers.proximas_partidas import proximos_jogos  
+from app.bot.handlers.ultimos_jogos import ultimos_jogos  
+from app.bot.handlers.streamers import listar_streamers_ao_vivo
 load_dotenv()
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 
@@ -13,21 +16,14 @@ async def start_bot():
     print("Bot do Telegram iniciado...")
 
     app = ApplicationBuilder().token(TOKEN).build()
+
+    # Adiciona os handlers para os comandos
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("redes", redes))
+    app.add_handler(CommandHandler("redes", redes))  
+    app.add_handler(CommandHandler("proximosjogos", proximos_jogos))  
+    app.add_handler(CommandHandler("ultimosjogos", ultimos_jogos))  
+    app.add_handler(CommandHandler("streamers", listar_streamers_ao_vivo))  
 
     await app.initialize()
     await app.start()
     await app.updater.start_polling()
-
-async def redes(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    mensagem = (
-        "🔥 Redes sociais oficiais da FURIA:\n\n"
-        "🐦 Twitter: https://twitter.com/FURIA\n"
-        "📸 Instagram: https://instagram.com/furiagg\n"
-        "📘 Facebook: https://facebook.com/furiagg\n"
-        "🎥 YouTube: https://youtube.com/FURIA\n"
-        "🟣 Twitch: https://twitch.tv/furiagg\n"
-        "🌐 Site: https://www.furia.gg/\n"
-    )
-    await update.message.reply_text(mensagem)
